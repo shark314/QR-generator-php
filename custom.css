@@ -1,0 +1,204 @@
+.btn-image img {
+    height: 64px;
+}
+
+.w-60 {
+    width: 60% !important;
+}
+
+.btn-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px !important;
+    min-width: 80px !important;
+    height: 80px !important;
+    padding: 8px !important;
+    border-radius: 4px !important;
+    cursor: pointer;
+    background-color: #f5f8fa !important;
+}
+
+.btn-image.active {
+    border: 1px solid #00bfff;
+    background-color: #00bfff14 !important;
+}
+
+.btn-image:hover {
+    cursor: pointer;
+    background-color: #e6edf0 !important;
+}
+
+.input-group-sm>.form-control {
+    height: 38px;
+}
+
+.h-700 {
+    height: 700px !important;
+}
+
+.fs-32px {
+    font-size: 32px !important;
+}
+
+.fs-12px {
+    font-size: 12px !important;
+}
+
+.fs-18px {
+    font-size: 18px !important;
+}
+
+.fs-14px {
+    font-size: 14px !important;
+}
+
+.px-35px {
+    padding-left: 35px !important;
+    padding-right: 35px !important;
+}
+
+.p-2-8px {
+    padding: 2px 8px !important;
+}
+
+.btn-blue {
+    color: #00bfff !important;
+    cursor: pointer;
+}
+
+.text-blue {
+    color: #00bfff !important;
+}
+
+.text-darkblue {
+    color: #1974d2 !important;
+}
+
+.bg-blue {
+    background-color: #00bfff !important;
+}
+
+.btn.bg-blue:hover {
+    background-color: #1ec7ff !important;
+}
+
+.btn-blue:hover {
+    background-color: #e1f7ff !important;
+}
+
+.qr-img {
+    width: 280px;
+}
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 10px;
+    transition: 0.3s;
+}
+
+.form-label {
+    margin-bottom: 4px !important;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #f4f4f4;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    border-bottom: 2px solid #00bfff;
+    color: #00bfff;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    border-top: none;
+}
+
+.p-r-12px {
+    padding-right: 12px;
+}
+
+.m-l-4px {
+    margin-left: 4px;
+}
+
+.dropdown-menu {
+    margin-top: 2px;
+}
+
+.dropdown-img {
+    padding: 0;
+}
+
+.dropdown-img ul {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 300px;
+    padding: 12px 8px;
+    margin: 0;
+}
+
+.dropdown-img img {
+    width: 24px;
+    height: 24px;
+}
+
+.dropdown-img .dropdown-item {
+    cursor: pointer;
+}
+
+.dropdown-img li {
+    width: fit-content;
+    padding: 4px;
+    margin: 4px 12px;
+}
+
+.dropdown-img .dropdown-toggle {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    background: transparent;
+    height: 38px;
+}
+
+.dropdown-img .dropdown-toggle img {
+    width: 24px;
+    height: 24px;
+}
+
+#download_dropdown_menu_button:after {
+    content: none;
+}
+
+.p-6-20px {
+    padding: 6px 20px;
+}
+
+.dropdown.show button {
+    background-color: #e1f7ff !important;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}
+
+.spinner-border {
+    width: 50px;
+    height: 50px;
+}

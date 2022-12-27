@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>QRScan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="./custom.css">
+</head>
+<body>
+
+<button id="btn_modal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#qrScanModal">
+    Launch static backdrop modal
+</button>
+
+<div class="modal fade" id="qrScanModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-xl-down">
+        <div class="modal-content h-700">
+            <div class="w-100 d-flex h-100">
+                <div class="col-4 border-end d-flex flex-column">
+                    <div class="w-100 p-2 d-flex justify-content-between align-items-center">
+                        <button class="btn btn-link btn-blue"><i class="fa fa-lg fa-print"></i></button>
+                        <button class="btn btn-blue p-2-8px">
+                            <i class="fa fa-folder ms-1"></i>
+                            <span class="text-darkblue fw-semibold">Save Designs</span>
+                        </button>
+                    </div>
+                    <div class="w-100 flex-grow-1 d-flex justify-content-center align-items-center">
+                        <img src="" class="qr-img">
+                        <div class="spinner-border text-secondary d-none" id="loading_bar" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="w-100 d-flex justify-content-center py-5">
+                        <button class="btn text-white bg-blue p-6-20px rounded-pill">
+                            <i class="fa fa-cloud-download me-1"></i>DOWNLOAD
+                        </button>
+                        <div class="dropdown">
+                            <button id="download_dropdown_menu_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    class="btn btn-link btn-blue dropdown-toggle ms-2"><i class="fa fa-lg fa-ellipsis-vertical"></i></button>
+
+                            <ul class="dropdown-menu"
+                                aria-labelledby="dropdownMenuButton">
+                                <li class="dropdown-item">DOWNLOAD PNG</li>
+                                <li class="dropdown-item">DOWNLOAD PDF</li>
+                                <li class="dropdown-item">DOWNLOAD JPG</li>
+                                <li class="dropdown-item">DOWNLOAD SVG</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 d-flex flex-column justify-content-start">
+                    <div class="w-100 d-flex flex-row-reverse justify-content-between p-2">
+                        <button class="btn btn-link btn-blue" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-lg fa-times"></i>
+                        </button>
+                        <button class="btn btn-blue p-2-8px" id="btn_back">
+                            <i class="fa fa-arrow-right me-1"></i>
+                            <span class="text-darkblue fw-semibold">Back</span>
+                        </button>
+                    </div>
+                    <div id="home_content" class="qr-content d-none">
+                        <div class="w-100 px-35px">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <span class="fs-18px fw-bold d-flex align-items-center">
+                                    FRAME<i class="fa fa-regular fs-12px fa-circle-question btn-blue p-1 ms-1"></i>
+                                </span>
+                                <button class="btn btn-blue p-2-8px" id="btn_all_frames">
+                                    <span class="text-darkblue fw-semibold">All Frames</span>
+                                    <i class="fa fa-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-start align-items-center gap-3 my-2">
+                                <div class="btn-image" data-target="frame.no-frame">
+                                    <i class="fa fa-ban fs-32px"></i>
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-arrow-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-arrow-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-bottom-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-bottom-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-phone-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-phone-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-bar-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-bar-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-basic-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-basic-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-bottom-header-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-bottom-header-frame.png">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-2 col-4">
+                                    <label for="frame_color" class="form-label">Frame Color</label>
+                                    <div class="frame-color-picker input-group input-group-sm">
+                                        <input type="text" class="form-control w-60" id="frame_color" value="#000000">
+                                        <input type="color" class="input-group-text bg-transparent form-control form-control-color" id="frame_color_picker" value="#000000">
+                                    </div>
+                                </div>
+                                <div class="mb-2 col-4">
+                                    <label for="frame_text" class="form-label">Frame Text</label>
+                                    <input type="text" class="form-control frame-text" id="frame_text" value="SCAN ME">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 px-35px">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <span class="fs-18px fw-bold d-flex align-items-center">
+                                    QR CODE
+                                </span>
+                                <button class="btn btn-blue p-2-8px" id="btn_more_options">
+                                    <span class="text-darkblue fw-semibold">More Options</span>
+                                    <i class="fa fa-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-start align-items-center gap-3 my-2 type-container">
+                                <div class="btn-image" data-target="sharp.">
+                                    <img alt="" src="./images/type/default.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.rounded-2">
+                                    <img alt="" src="./images/type/rounded-2.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.dots">
+                                    <img alt="" src="./images/type/dots.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.rounded-1">
+                                    <img alt="" src="./images/type/rounded-1.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.connect-horizontal">
+                                    <img alt="" src="./images/type/connect-horizontal.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.square">
+                                    <img alt="" src="./images/type/square.png">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-4">
+                                    <label for="code_color" class="form-label">Code Color</label>
+                                    <div class="code-color-picker input-group input-group-sm mb-2">
+                                        <input type="text" class="form-control w-60" id="code_color" value="#000000">
+                                        <input type="color" class="input-group-text bg-transparent form-control form-control-color" id="code_color_picker" value="#000000">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 px-35px">
+                            <div class="w-100 d-flex justify-content-start align-items-center">
+                                <span class="fs-18px fw-bold d-flex align-items-center p-r-12px border-end">LOGO</span>
+                                <button class="btn btn-blue p-2-8px m-l-4px">
+                                    <i class="fa fa-cloud-upload ms-1"></i>
+                                    <span class="text-darkblue fw-semibold">Upload</span>
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-start align-items-center gap-3 my-2">
+                                <div class="btn-image" data-target="logo.no-logo">
+                                    <i class="fa fa-ban fs-32px"></i>
+                                </div>
+                                <div class="btn-image" data-target="logo.scan-me-square">
+                                    <img alt="" src="./images/scan-me-bordered.png" style="width: 40px; height: 40px">
+                                </div>
+                                <div class="btn-image" data-target="logo.scan-me">
+                                    <img alt="" src="./images/scan-me.png" style="width: 30px; height: 30px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="all_frames_content" class="qr-content d-none">
+                        <div class="w-100 px-35px">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <span class="fs-14px fw-bold d-flex align-items-center">FRAME COLOR & TEXT</span>
+                            </div>
+                            <div class="row">
+                                <div class="mb-2 col-4">
+                                    <label for="frame_color" class="form-label">Frame Color</label>
+                                    <div class="frame-color-picker input-group input-group-sm">
+                                        <input type="text" class="form-control w-60" id="frame_page_color" value="#000000">
+                                        <input type="color" class="input-group-text bg-transparent form-control form-control-color" id="frame_page_color_picker" value="#000000">
+                                    </div>
+                                </div>
+                                <div class="mb-2 col-4">
+                                    <label for="frame_text" class="form-label">Frame Text</label>
+                                    <input type="text" class="form-control frame-text" id="frame_page_text" value="SCAN ME">
+                                </div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <span class="fs-14px fw-bold d-flex align-items-center">FRAME STYLE</span>
+                            </div>
+                            <div class="d-flex justify-content-start align-items-center flex-wrap gap-3 my-2">
+                                <div class="btn-image" data-target="frame.no-frame">
+                                    <i class="fa fa-ban fs-32px"></i>
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-arrow-frame">
+                                    <img alt=""  src="./images/frame/qrcg-scan-me-arrow-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-bottom-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-bottom-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-phone-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-phone-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-bar-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-bar-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-basic-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-basic-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-bottom-header-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-bottom-header-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-bottom-tooltip-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-bottom-tooltip-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-bubble-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-bubble-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-gift-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-gift-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-hands-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-hands-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-letter-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-letter-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-ribbon-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-ribbon-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-scratch-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-scratch-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-script-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-script-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-shopping-bag-frame">
+                                    <img alt="" src="./images/frame/qrcg-scan-me-shopping-bag-frame.png">
+                                </div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <span class="fs-14px fw-bold d-flex align-items-center">RESTAUTANTS & BARS</span>
+                            </div>
+                            <div class="d-flex justify-content-start align-items-center flex-wrap gap-3 my-2">
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-menu-frame-01">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-menu-frame-01.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-menu-frame-02">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-menu-frame-02.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-takeaway-frame-01">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-takeaway-frame-01.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-glass-frame">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-glass-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-dish-frame">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-dish-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-takeaway-frame-02">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-takeaway-frame-02.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-chef-frame">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-chef-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-coffee-frame">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-coffee-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-beer-frame">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-beer-frame.png">
+                                </div>
+                                <div class="btn-image" data-target="frame.qrcg-scan-me-tray-frame">
+                                    <img alt=""  src="./images/restaurant-frame/qrcg-scan-me-tray-frame.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="more_options_content" class="qr-content d-none">
+                        <div class="w-100 px-35px">
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <span class="fs-14px fw-bold d-flex align-items-center">SHARP COLOR</span>
+                            </div>
+                            <div class="row">
+                                <div class="mb-2 col-4">
+                                    <label for="frame_color" class="form-label">Code Color</label>
+                                    <div class="code-color-picker input-group input-group-sm">
+                                        <input type="text" class="form-control w-60" id="more_code_color" value="#000000">
+                                        <input type="color" class="input-group-text bg-transparent form-control form-control-color" id="more_code_color_picker" value="#000000">
+                                    </div>
+                                </div>
+                                <div class="mb-2 col-4">
+                                    <label for="back_color" class="form-label">Background Color</label>
+                                    <div class="back-color-picker input-group input-group-sm">
+                                        <input type="text" class="form-control w-60" id="back_color" value="#000000">
+                                        <input type="color" class="input-group-text bg-transparent form-control form-control-color" id="back_color_picker" value="#000000">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <span class="fs-14px fw-bold d-flex align-items-center">SHARP STYLE</span>
+                            </div>
+                            <div class="d-flex justify-content-start align-items-center flex-wrap gap-3 my-2 type-container">
+                                <div class="btn-image" data-target="sharp.">
+                                    <img alt=""  src="./images/type/default.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.rounded-2">
+                                    <img alt=""  src="./images/type/rounded-2.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.dots">
+                                    <img alt=""  src="./images/type/dots.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.rounded-1">
+                                    <img alt=""  src="./images/type/rounded-1.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.connect-horizontal">
+                                    <img alt=""  src="./images/type/connect-horizontal.png">
+                                </div>
+                                <div class="btn-image" data-target="sharp.square">
+                                    <img alt=""  src="./images/type/square.png">
+                                </div>
+                            </div>
+                            <div class="w-100 d-flex justify-content-between align-items-center">
+                                <span class="fs-14px fw-bold d-flex align-items-center">EDGES</span>
+                            </div>
+                            <div class="w-100 tab my-2">
+                                <button class="tablinks active" data-target="all">ALL</button>
+                                <button class="tablinks" data-target="custom">CUSTOM</button>
+                            </div>
+                            <div id="all_tab" class="tabcontent w-100" style="display: block">
+                                <div class="row">
+                                    <div class="mb-2 col-2">
+                                        <label class="form-label">Type</label>
+                                        <div class="dropdown dropdown-img" id="dropdown_all">
+                                            <button class="dropdown-toggle" type="button"
+                                                    id="corner_type" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                <img alt="" src="./images/corner/corner-1.png">
+                                            </button>
+
+                                            <div class="dropdown-menu" aria-labelledby="corner_type">
+                                                <ul>
+                                                    <li data-target="all-17" class="dropdown-item"><img alt="" src="./images/corner/corner-17.png"></li>
+                                                    <li data-target="all-1" class="dropdown-item"><img alt="" src="./images/corner/corner-1.png"></li>
+                                                    <li data-target="all-2" class="dropdown-item"><img alt="" src="./images/corner/corner-2.png"></li>
+                                                    <li data-target="all-3" class="dropdown-item"><img alt="" src="./images/corner/corner-3.png"></li>
+                                                    <li data-target="all-4" class="dropdown-item"><img alt="" src="./images/corner/corner-4.png"></li>
+                                                    <li data-target="all-5" class="dropdown-item"><img alt="" src="./images/corner/corner-5.png"></li>
+                                                    <li data-target="all-6" class="dropdown-item"><img alt="" src="./images/corner/corner-6.png"></li>
+                                                    <li data-target="all-7" class="dropdown-item"><img alt="" src="./images/corner/corner-7.png"></li>
+                                                    <li data-target="all-8" class="dropdown-item"><img alt="" src="./images/corner/corner-8.png"></li>
+                                                    <li data-target="all-9" class="dropdown-item"><img alt="" src="./images/corner/corner-9.png"></li>
+                                                    <li data-target="all-10" class="dropdown-item"><img alt="" src="./images/corner/corner-10.png"></li>
+                                                    <li data-target="all-11" class="dropdown-item"><img alt="" src="./images/corner/corner-11.png"></li>
+                                                    <li data-target="all-13" class="dropdown-item"><img alt="" src="./images/corner/corner-13.png"></li>
+                                                    <li data-target="all-15" class="dropdown-item"><img alt="" src="./images/corner/corner-15.png"></li>
+                                                    <li data-target="all-16" class="dropdown-item"><img alt="" src="./images/corner/corner-16.png"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-4">
+                                        <label class="form-label">Outer Color</label>
+                                        <div class="all-outer-color-picker input-group input-group-sm mb-2">
+                                            <input type="text" class="form-control w-60" value="#000000">
+                                            <input type="color" class="input-group-text bg-transparent form-control form-control-color" value="#000000">
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-4">
+                                        <label class="form-label">Inner Color</label>
+                                        <div class="all-inner-color-picker input-group input-group-sm mb-2">
+                                            <input type="text" class="form-control w-60" value="#000000">
+                                            <input type="color" class="input-group-text bg-transparent form-control form-control-color" value="#000000">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="custom_tab" class="tabcontent w-100">
+                                <div class="w-100 fs-12px fw-bold">Top Left</div>
+                                <div class="row">
+                                    <div class="mb-2 col-2">
+                                        <label class="form-label">Type</label>
+                                        <div class="dropdown dropdown-img" id="dropdown_top_left">
+                                            <button class="dropdown-toggle" type="button"
+                                                    id="corner_type_top_left" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                <img alt="" src="./images/corner/corner-1.png">
+                                            </button>
+
+                                            <div class="dropdown-menu" aria-labelledby="corner_type_top_left">
+                                                <ul>
+                                                    <li data-target="top_left-17" class="dropdown-item"><img alt="" src="./images/corner/corner-17.png"></li>
+                                                    <li data-target="top_left-1" class="dropdown-item"><img alt="" src="./images/corner/corner-1.png"></li>
+                                                    <li data-target="top_left-2" class="dropdown-item"><img alt="" src="./images/corner/corner-2.png"></li>
+                                                    <li data-target="top_left-3" class="dropdown-item"><img alt="" src="./images/corner/corner-3.png"></li>
+                                                    <li data-target="top_left-4" class="dropdown-item"><img alt="" src="./images/corner/corner-4.png"></li>
+                                                    <li data-target="top_left-5" class="dropdown-item"><img alt="" src="./images/corner/corner-5.png"></li>
+                                                    <li data-target="top_left-6" class="dropdown-item"><img alt="" src="./images/corner/corner-6.png"></li>
+                                                    <li data-target="top_left-7" class="dropdown-item"><img alt="" src="./images/corner/corner-7.png"></li>
+                                                    <li data-target="top_left-8" class="dropdown-item"><img alt="" src="./images/corner/corner-8.png"></li>
+                                                    <li data-target="top_left-9" class="dropdown-item"><img alt="" src="./images/corner/corner-9.png"></li>
+                                                    <li data-target="top_left-10" class="dropdown-item"><img alt="" src="./images/corner/corner-10.png"></li>
+                                                    <li data-target="top_left-11" class="dropdown-item"><img alt="" src="./images/corner/corner-11.png"></li>
+                                                    <li data-target="top_left-13" class="dropdown-item"><img alt="" src="./images/corner/corner-13.png"></li>
+                                                    <li data-target="top_left-15" class="dropdown-item"><img alt="" src="./images/corner/corner-15.png"></li>
+                                                    <li data-target="top_left-16" class="dropdown-item"><img alt="" src="./images/corner/corner-16.png"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-4">
+                                        <label class="form-label">Outer Color</label>
+                                        <div class="tl-outer-color-picker input-group input-group-sm mb-2">
+                                            <input type="text" class="form-control w-60" value="#000000">
+                                            <input type="color" class="input-group-text bg-transparent form-control form-control-color" value="#000000">
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-4">
+                                        <label class="form-label">Inner Color</label>
+                                        <div class="tl-inner-color-picker input-group input-group-sm mb-2">
+                                            <input type="text" class="form-control w-60" value="#000000">
+                                            <input type="color" class="input-group-text bg-transparent form-control form-control-color" value="#000000">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-100 fs-12px fw-bold">Top Right</div>
+                                <div class="row">
+                                    <div class="mb-2 col-2">
+                                        <label class="form-label">Type</label>
+
+                                        <div class="dropdown dropdown-img" id="dropdown_top_right">
+                                            <button class="dropdown-toggle" type="button"
+                                                    id="corner_type_top_right" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                <img alt="" src="./images/corner/corner-1.png">
+                                            </button>
+
+                                            <div class="dropdown-menu" aria-labelledby="corner_type_top_right">
+                                                <ul>
+                                                    <li data-target="top_right-17" class="dropdown-item"><img alt="" src="./images/corner/corner-17.png"></li>
+                                                    <li data-target="top_right-1" class="dropdown-item"><img alt="" src="./images/corner/corner-1.png"></li>
+                                                    <li data-target="top_right-2" class="dropdown-item"><img alt="" src="./images/corner/corner-2.png"></li>
+                                                    <li data-target="top_right-3" class="dropdown-item"><img alt="" src="./images/corner/corner-3.png"></li>
+                                                    <li data-target="top_right-4" class="dropdown-item"><img alt="" src="./images/corner/corner-4.png"></li>
+                                                    <li data-target="top_right-5" class="dropdown-item"><img alt="" src="./images/corner/corner-5.png"></li>
+                                                    <li data-target="top_right-6" class="dropdown-item"><img alt="" src="./images/corner/corner-6.png"></li>
+                                                    <li data-target="top_right-7" class="dropdown-item"><img alt="" src="./images/corner/corner-7.png"></li>
+                                                    <li data-target="top_right-8" class="dropdown-item"><img alt="" src="./images/corner/corner-8.png"></li>
+                                                    <li data-target="top_right-9" class="dropdown-item"><img alt="" src="./images/corner/corner-9.png"></li>
+                                                    <li data-target="top_right-10" class="dropdown-item"><img alt="" src="./images/corner/corner-10.png"></li>
+                                                    <li data-target="top_right-11" class="dropdown-item"><img alt="" src="./images/corner/corner-11.png"></li>
+                                                    <li data-target="top_right-13" class="dropdown-item"><img alt="" src="./images/corner/corner-13.png"></li>
+                                                    <li data-target="top_right-15" class="dropdown-item"><img alt="" src="./images/corner/corner-15.png"></li>
+                                                    <li data-target="top_right-16" class="dropdown-item"><img alt="" src="./images/corner/corner-16.png"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-4">
+                                        <label class="form-label">Outer Color</label>
+                                        <div class="tr-outer-color-picker input-group input-group-sm mb-2">
+                                            <input type="text" class="form-control w-60" value="#000000">
+                                            <input type="color" class="input-group-text bg-transparent form-control form-control-color" value="#000000">
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-4">
+                                        <label class="form-label">Inner Color</label>
+                                        <div class="tr-inner-color-picker input-group input-group-sm mb-2">
+                                            <input type="text" class="form-control w-60" value="#000000">
+                                            <input type="color" class="input-group-text bg-transparent form-control form-control-color" value="#000000">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-100 fs-12px fw-bold">Bottom Left</div>
+                                <div class="row">
+                                    <div class="mb-2 col-2">
+                                        <label class="form-label">Type</label>
+
+                                        <div class="dropdown dropdown-img" id="dropdown_bottom_left">
+                                            <button class="dropdown-toggle" type="button"
+                                                    id="corner_type_bottom_left" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                <img alt="" src="./images/corner/corner-1.png">
+                                            </button>
+
+                                            <div class="dropdown-menu" aria-labelledby="corner_type_top_right">
+                                                <ul>
+                                                    <li data-target="bottom_left-17" class="dropdown-item"><img alt="" src="./images/corner/corner-17.png"></li>
+                                                    <li data-target="bottom_left-1" class="dropdown-item"><img alt="" src="./images/corner/corner-1.png"></li>
+                                                    <li data-target="bottom_left-2" class="dropdown-item"><img alt="" src="./images/corner/corner-2.png"></li>
+                                                    <li data-target="bottom_left-3" class="dropdown-item"><img alt="" src="./images/corner/corner-3.png"></li>
+                                                    <li data-target="bottom_left-4" class="dropdown-item"><img alt="" src="./images/corner/corner-4.png"></li>
+                                                    <li data-target="bottom_left-5" class="dropdown-item"><img alt="" src="./images/corner/corner-5.png"></li>
+                                                    <li data-target="bottom_left-6" class="dropdown-item"><img alt="" src="./images/corner/corner-6.png"></li>
+                                                    <li data-target="bottom_left-7" class="dropdown-item"><img alt="" src="./images/corner/corner-7.png"></li>
+                                                    <li data-target="bottom_left-8" class="dropdown-item"><img alt="" src="./images/corner/corner-8.png"></li>
+                                                    <li data-target="bottom_left-9" class="dropdown-item"><img alt="" src="./images/corner/corner-9.png"></li>
+                                                    <li data-target="bottom_left-10" class="dropdown-item"><img alt="" src="./images/corner/corner-10.png"></li>
+                                                    <li data-target="bottom_left-11" class="dropdown-item"><img alt="" src="./images/corner/corner-11.png"></li>
+                                                    <li data-target="bottom_left-13" class="dropdown-item"><img alt="" src="./images/corner/corner-13.png"></li>
+                                                    <li data-target="bottom_left-15" class="dropdown-item"><img alt="" src="./images/corner/corner-15.png"></li>
+                                                    <li data-target="bottom_left-16" class="dropdown-item"><img alt="" src="./images/corner/corner-16.png"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-4">
+                                        <label class="form-label">Outer Color</label>
+                                        <div class="bl-outer-color-picker input-group input-group-sm mb-2">
+                                            <input type="text" class="form-control w-60" value="#000000">
+                                            <input type="color" class="input-group-text bg-transparent form-control form-control-color" value="#000000">
+                                        </div>
+                                    </div>
+                                    <div class="mb-2 col-4">
+                                        <label class="form-label">Inner Color</label>
+                                        <div class="bl-inner-color-picker input-group input-group-sm mb-2">
+                                            <input type="text" class="form-control w-60" value="#000000">
+                                            <input type="color" class="input-group-text bg-transparent form-control form-control-color" value="#000000">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<script src="./custom.js"></script>
+</html>
